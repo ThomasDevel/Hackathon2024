@@ -1,6 +1,5 @@
-﻿namespace Hackathon.Tests
+﻿namespace Hackathon2024.Tests
 {
-    using HackathonTemplating;
     using System.IO;
     using Xunit;
 

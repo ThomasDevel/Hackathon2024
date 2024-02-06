@@ -19,7 +19,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\HackathonTemplating\HackathonTemplating.csproj" />
+		<ProjectReference Include="..\HackathonTemplating\Hackathon2024.csproj" />
 	</ItemGroup>
 
 </Project>

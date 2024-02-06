@@ -1,6 +1,5 @@
-﻿namespace Hackathon.Tests
+﻿namespace Hackathon2024.Tests
 {
-    using HackathonTemplating;
     using System;
     using Xunit;
 
@@ -24,9 +23,10 @@
                     "pm@selligent.com [recipient] pm@selligent.com [recipient] pm@selligent.com [recipient] pm@selligent.com [recipient]")]
         public void GivenAValidSmtpOutcome_WhenParsing_RemoveRecipientInformationFromOutcomeIfPresent(String outcomeString, String recipient, String censoredOutcome)
         {
-            var result = SmtpCensorer.TryCensorRecipient(outcomeString, recipient);
+            // Let students write this themselves
+            //var result = SmtpCensorer.TryCensorRecipient(outcomeString, recipient);
 
-            Assert.Equal(censoredOutcome, result.ToString());
+            //Assert.Equal(censoredOutcome, result.ToString());
         }
     }
 }

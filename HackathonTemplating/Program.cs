@@ -1,4 +1,4 @@
-﻿namespace HackathonTemplating
+﻿namespace Hackathon2024
 {
     internal class Program
     {
