@@ -1,7 +1,6 @@
 ﻿namespace Hackathon2024
 {
     using HtmlAgilityPack;
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -14,8 +13,7 @@
 
     public class TemplateRenderer
     {
-        // Data source -> guid -> data set
-        public static Dictionary<string, Dictionary<string, Dictionary<string, string>>> DataSources = new()
+        private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> DataSources = new()
         {
             {
                 "hackathon_jury",
@@ -46,40 +44,10 @@
                         }
                     }
                 }
-            },
-            {
-                "hackathon_participants",
-                new Dictionary<string, Dictionary<string, string>>
-                {
-                    {
-                        "1",
-                        new Dictionary<string, string> {
-                            {"JURY_MEM", "Igor Kalders"},
-                            {"LANGUAGE", "Dutch"},
-                            {"ID", "1"}
-                        }
-                    },
-                    {
-                        "2",
-                        new Dictionary<string, string> {
-                            {"JURY_MEM", "Thomas Aerts"},
-                            {"LANGUAGE", "Dutch"},
-                            {"ID", "2"}
-                        }
-                    },
-                    {
-                        "3",
-                        new Dictionary<string, string> {
-                            {"JURY_MEM", "Blaise Braye"},
-                            {"LANGUAGE", "French"},
-                            {"ID", "3"}
-                        }
-                    }
-                }
             }
         };
 
-        public static Dictionary<string, string> Resources = new()
+        private static readonly Dictionary<string, string> Resources = new()
         {
             {"heo/hackathon_2024/arrow_left.png", "https://paranadigital.selligent.com/images/SMC/heo/hackathon_2024/arrow_left.png" },
             {"heo/hackathon_2024/arrow_down.png","https://paranadigital.selligent.com/images/SMC/heo/hackathon_2024/arrow_down.png" },
@@ -108,7 +76,6 @@
                     var dataSelection = repeaterNode.Attributes["dataselection"].Value;
                     var expressions = ExpressionTransformer.ParseContent(innerText).ToArray();
                     var parts = GetItemValue(dataSelection, expressions[0]);
-                    //parts = parts.Select(x => $"{x}{trailingWhitespace}").ToArray();
                     string formattedResult = string.Join(",\n", parts);
                     var parentNode = repeaterNode.ParentNode;
                     repeaterNode.Remove();
@@ -130,28 +97,6 @@
             document.Save(sw);
 
             return document;
-        }
-
-        public static String FormatHtmlText(String htmlText)
-        {
-            try
-            {
-                var parser = new AngleSharp.Html.Parser.HtmlParser();
-
-                using var document = parser.ParseDocument(htmlText);
-
-                using var sw = new StringWriter();
-
-                var formatter = new AngleSharp.Html.PrettyMarkupFormatter { Indentation = "  ", NewLine = Environment.NewLine };
-
-                document.ToHtml(sw, formatter);
-
-                return sw.ToString();
-            }
-            catch
-            {
-                return htmlText;
-            }
         }
 
         public static string[] GetItemValue(string dataSelection, string itemValueExpression)
