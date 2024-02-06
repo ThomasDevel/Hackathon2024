@@ -92,9 +92,11 @@
                 imageNode.Attributes["src"].Value = actualLink;
             }
 
-            FileStream sw = new FileStream(@".\result.html", FileMode.OpenOrCreate);
+            //FileStream sw = new FileStream(@".\result.html", FileMode.OpenOrCreate);
 
-            document.Save(sw);
+            File.WriteAllText(@".\result.html", document.DocumentNode.OuterHtml);
+
+            //document.Save(sw);
 
             return document;
         }
