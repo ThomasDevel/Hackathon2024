@@ -34,4 +34,4 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Performance
       working-directory: ./Hackathon2024
-      run: dotnet run --configuration Release --project Hackathon2024.Benchmark/Hackathon2024.Benchmark.csproj -- ${GITHUB_REF##*/} $SASURL
+      run: dotnet run --configuration Release --project Hackathon2024/Hackathon2024.Benchmark/Hackathon2024.Benchmark.csproj -- ${GITHUB_REF##*/} $SASURL
