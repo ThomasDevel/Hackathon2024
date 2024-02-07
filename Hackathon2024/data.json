@@ -1,0 +1,25 @@
+{
+  "variables": [
+    {
+      "name": "baseurl",
+      "value": "https://paranadigital.selligent.com/images/SMC/"
+    }
+  ],
+  "hackathon_jury": [
+    {
+      "ID": 1,
+      "JURY_MEM": "Francois Mercer",
+      "LANGUAGE": "French"
+    },
+    {
+      "ID": 2,
+      "JURY_MEM": "Jonathan Patterson",
+      "LANGUAGE": "English"
+    },
+    {
+      "ID": 3,
+      "JURY_MEM": "Estelle Darcy",
+      "LANGUAGE": "English"
+    }
+  ]
+}

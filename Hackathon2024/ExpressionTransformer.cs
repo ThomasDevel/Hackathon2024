@@ -11,7 +11,7 @@
     public class ExpressionTransformer
     {
         private static readonly Regex ExpressionDetector =
-            new Regex(@"\[%(?<field>.*?)%\]",
+            new Regex(@"\[%(?<expression>.*?)%\]",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled, TimeSpan.FromSeconds(15));
 
         private static readonly Regex ItemValueFieldDetector =
@@ -19,39 +19,31 @@
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled, TimeSpan.FromSeconds(15));
 
         private static readonly Regex ResourceFieldDetector =
-            new Regex(@"resource\('(?<field>.*?)'\)",
+            new Regex(@"resource\('(?<resource>.*?)'\)",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled, TimeSpan.FromSeconds(15));
 
-        public static IEnumerable<string> ParseContent(string content)
+        public static string RenderExpressions(string content, string baseUrl, Dictionary<string, object> data = null)
         {
-            return ExpressionDetector.Matches(content).Cast<Match>().Select(match =>
+            return ExpressionDetector.Replace(content, expressionMatch =>
             {
-                var expressionGroup = match.Groups["expression"];
-                if (expressionGroup.Success)
+                var expression = expressionMatch.Groups["expression"].Value;
+
+                expression = ItemValueFieldDetector.Replace(expression, expressionMatch =>
                 {
-                    return expressionGroup.Value;
-                }
+                    var field = expressionMatch.Groups["field"].Value;
 
-                return match.Value;
-            }).ToArray();
-        }
+                    return (data[field] ?? "").ToString();
+                });
 
-        public static string ParseParenthesisContent(string type, string expression)
-        {
-            var field = type switch
-            {
-                "itemValue" => ItemValueFieldDetector.Match(expression),
-                "resource" => ResourceFieldDetector.Match(expression),
-                _ => throw new NotSupportedException("This type before the parenthesis is not supported..")
-            };
+                expression = ResourceFieldDetector.Replace(expression, expressionMatch =>
+                {
+                    var resource = expressionMatch.Groups["resource"].Value;
 
-            var fieldGroup = field.Groups["field"];
-            if (fieldGroup.Success)
-            {
-                return fieldGroup.Value;
-            }
+                    return $"{baseUrl}{resource}";
+                });
 
-            return string.Empty;
+                return expression;
+            });
         }
     }
 }

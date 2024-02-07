@@ -10,6 +10,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="data.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="result_template.html">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
