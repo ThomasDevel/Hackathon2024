@@ -19,8 +19,8 @@ Please make sure you are using Visual Studio 2019 which is necessary for the sup
 
 ## The goal of this Hackathon
 
-To make our implementation of the TemplateRenderer.cs in Hackathon2024 as fastest as possible!
-We deliberately left a lot of room for improvement in the code and this represents a
+To make our implementation of the TemplateRenderer.cs in Hackathon2024 as fast as possible!
+We deliberately left a lot of room for improvements in the code and this represents a
 perfect use case which could occur in a real life enterprise setting.
 
 ## HTML Templating Whut
@@ -49,7 +49,7 @@ run it by pressing Ctrl+F5 so it does not attach a debugger. Do not worry if thi
 
 ![Release](./images/Release.PNG)
 
-After the run you should be greeted by a similar overview as show below where you can clearly see that we did
+After the run you should be greeted by a similar overview as shown below where you can clearly see that we did
 N=10 runs for an average runtime of 1.826 us and that our program allocated 5 KB of memory during its runtime.
 Your job is to get that Mean as low as possible while also taking into account the Allocated memory as much as possible.
 
