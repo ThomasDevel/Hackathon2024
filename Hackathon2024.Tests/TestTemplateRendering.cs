@@ -8,16 +8,17 @@
         [Fact]
         public void GivenATemplateRenderedByOurOwnImplementation_WhenNormalizingAndComparingThem_TheyShouldMatch()
         {
-            var templateRender = new TemplateRenderer();
-            templateRender.Render();
+            using var template = File.OpenText("template.html");
+            using var output = new StringWriter();
 
-            var givenExample = File.ReadAllText(@"../../../../Hackathon2024/result_template.html").Replace("\n", "").Replace("\r", "");
-            var result = File.ReadAllText(@"../../../../Hackathon2024/bin/Debug/net8.0/result.html").Replace("\n", "").Replace("\r", "");
+            new TemplateRenderer()
+                .RenderTemplate(template, output);
 
-            var sequence1 = givenExample.Trim();
-            var sequence2 = result.Trim();
+            var templateContent = File.ReadAllText("result_template.html");
 
-            Assert.Equal(sequence1, sequence2);
+            Assert.Equal(
+                templateContent.NaiveHtmlNormalize(),
+                output.ToString().NaiveHtmlNormalize());
         }
     }
 }

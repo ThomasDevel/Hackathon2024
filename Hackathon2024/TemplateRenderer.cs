@@ -1,6 +1,7 @@
 ﻿namespace Hackathon2024
 {
     using HtmlAgilityPack;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -54,20 +55,15 @@
             {"heo/hackathon_2024/Hackathon_2024_Banner.png", "https://paranadigital.selligent.com/images/SMC/heo/hackathon_2024/Hackathon_2024_Banner.png" }
         };
 
-        public void Render()
-        {
-            var outDoc = RenderTemplate("template.html");
-        }
-
-        public HtmlDocument RenderTemplate(string documentPath)
+        public void RenderTemplate(TextReader template, TextWriter output)
         {
             var document = new HtmlDocument();
-            document.Load(documentPath);
+            document.Load(template);
 
-            HtmlNode[] repeaterNodes = document.DocumentNode.SelectNodes("//*[name()='sg:repeater']")?.ToArray() ?? [];
+            HtmlNode[] repeaterNodes = document.DocumentNode.SelectNodes("//*[name()='sg:repeater']")?.ToArray() ?? Array.Empty<HtmlNode>();
             foreach (var repeaterNode in repeaterNodes)
             {
-                HtmlNode[] repeaterItemNodes = repeaterNode.SelectNodes("//*[name()='sg:repeateritem']")?.ToArray() ?? [];
+                HtmlNode[] repeaterItemNodes = repeaterNode.SelectNodes("//*[name()='sg:repeateritem']")?.ToArray() ?? Array.Empty<HtmlNode>();
                 // hackathon_jury is the data source, JURY_MEM the field selection
                 // dataselection="hackathon_jury"
                 foreach (var repeaterItemNode in repeaterItemNodes)
@@ -83,18 +79,16 @@
                 }
             }
 
-            HtmlNode[] imageNodes = document.DocumentNode.SelectNodes("//img")?.ToArray() ?? [];
+            HtmlNode[] imageNodes = document.DocumentNode.SelectNodes("//img")?.ToArray() ?? Array.Empty<HtmlNode>();
             foreach (var imageNode in imageNodes)
             {
                 var srcAttributeValue = imageNode.Attributes["src"].Value;
-                var expressions = ExpressionTransformer.ParseContent(srcAttributeValue)?.ToArray() ?? [];
+                var expressions = ExpressionTransformer.ParseContent(srcAttributeValue)?.ToArray() ?? Array.Empty<string>();
                 var actualLink = GetResourceValue(expressions[0]);
                 imageNode.Attributes["src"].Value = actualLink;
             }
 
-            File.WriteAllText(@"./result.html", document.DocumentNode.OuterHtml);
-
-            return document;
+            document.DocumentNode.WriteTo(output);
         }
 
         public static string[] GetItemValue(string dataSelection, string itemValueExpression)

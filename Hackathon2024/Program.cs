@@ -1,17 +1,20 @@
-﻿namespace Hackathon2024
+﻿using System;
+using System.IO;
+
+namespace Hackathon2024
 {
     internal class Program
     {
         static int Main(string[] args)
         {
-            var templateRender = new TemplateRenderer();
-            var doc = templateRender.RenderTemplate("template.html");
-            if (doc != null)
-            {
-                return 0;
-            }
+            var template = args.Length == 1
+                ? File.OpenText(args[0])
+                : Console.In;
 
-            return -1;
+            new TemplateRenderer()
+                .RenderTemplate(template, Console.Out);
+
+            return 0;
         }
     }
 }
