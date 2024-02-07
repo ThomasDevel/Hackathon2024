@@ -2,7 +2,6 @@
 {
     using HtmlAgilityPack;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
 
     public struct KnownExpressions
@@ -92,7 +91,7 @@
                 imageNode.Attributes["src"].Value = actualLink;
             }
 
-            File.WriteAllText(@".\result.html", document.DocumentNode.OuterHtml);
+
 
             return document;
         }
