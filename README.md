@@ -3,7 +3,7 @@
 Please checkout this branch locally:
 
 ```
-git clone https://github.com/ThomasDevel/Hackathon2024
+git clone https://github.com/ThomasDevel/Hackathon2024.git
 ```
 
 Open the Hackathon2024.sln solution in the Hackathon2024 folder to get started.
