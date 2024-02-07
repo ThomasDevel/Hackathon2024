@@ -5,6 +5,8 @@ using Data = System.Collections.Generic.Dictionary<string, System.Collections.Ge
 
 namespace Hackathon2024
 {
+    using System.IO;
+
     internal class Program
     {
         static int Main(string[] args)
