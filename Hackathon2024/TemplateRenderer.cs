@@ -92,7 +92,7 @@
                 imageNode.Attributes["src"].Value = actualLink;
             }
 
-            File.WriteAllText(@".\result.html", document.DocumentNode.OuterHtml);
+            File.WriteAllText(@"./result.html", document.DocumentNode.OuterHtml);
 
             return document;
         }
