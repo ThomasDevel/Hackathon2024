@@ -6,23 +6,24 @@ Please checkout this branch locally:
 git clone https://github.com/ThomasDevel/Hackathon2024
 ```
 
-Open the Hackathon2024.sln solution to get started.
+Open the Hackathon2024.sln solution in the Hackathon2024 folder to get started.
 
 In this branch you will find 3 projects:
 
-- Hackathon2024: &ensp;&ensp; This contains the implementation for rendering a HTML template according to the Engage Expression style.
-- Hackathon2024.Tests: &ensp;&ensp; This contains the unit test to check if the final rendered HTML matches the desired output.
-- Hackathon2024.Benchmark: &ensp;&ensp; This contains the BenchmarkDotNet code for running and tracking the performance of the implentation and it provides a reproducible measurement for your experiments. Learn more at https://github.com/dotnet/BenchmarkDotNet
+- Hackathon2024: This contains the implementation for rendering a HTML template according to the Engage Expression style.
+- Hackathon2024.Tests: This contains the unit test to check if the final rendered HTML matches the desired output.
+  The testing is done with xUnit.net. Learn more at https://xunit.net/
+- Hackathon2024.Benchmark: This contains the BenchmarkDotNet code for tracking the performance of the implementation and it provides a reproducible measurement for your experiments. Learn more at https://github.com/dotnet/BenchmarkDotNet
 
 Please make sure you are using Visual Studio 2019 which is necessary for the support of the .NET6.0 SDK.
 
 ## The goal of this Hackathon
 
-To make our implementation of the TemplateRenderer.cs as fastest as possible!
+To make our implementation of the TemplateRenderer.cs in Hackathon2024 as fastest as possible!
 We deliberately left a lot of room for improvement in the code and this represents a
 perfect use case which could occur in a real life enterprise setting.
 
-## HTML Templating Whut ?
+## HTML Templating Whut
 
 Template engines are software that enable you to write HTML code with placeholders, variables, expressions, and logic. For example, you can use a template engine to loop through an array of data and display it in a table, or to conditionally render different elements based on user input. Template engines usually have their own syntax and rules, but they are compatible with standard HTML.
 
@@ -39,6 +40,7 @@ Should end up as:
 Template engines offer several advantages for web development, such as separating the presentation layer from the data layer, reducing code duplication and boilerplate, and allowing for template reuse across different pages or components.
 
 [This](./Hackathon2024/template.html) example template should finally be rendered as [this](./Hackathon2024/result_template.html).
+Open both html files with your favorite browser to compare them visually.
 
 ## Benchmark Notes
 
