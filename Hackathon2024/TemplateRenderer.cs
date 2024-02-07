@@ -59,7 +59,7 @@
             var outDoc = RenderTemplate("template.html");
         }
 
-        public static HtmlDocument RenderTemplate(string documentPath)
+        public HtmlDocument RenderTemplate(string documentPath)
         {
             var document = new HtmlDocument();
             document.Load(documentPath);
@@ -92,11 +92,7 @@
                 imageNode.Attributes["src"].Value = actualLink;
             }
 
-            //FileStream sw = new FileStream(@".\result.html", FileMode.OpenOrCreate);
-
             File.WriteAllText(@".\result.html", document.DocumentNode.OuterHtml);
-
-            //document.Save(sw);
 
             return document;
         }

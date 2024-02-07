@@ -2,10 +2,16 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             var templateRender = new TemplateRenderer();
-            templateRender.Render();
+            var doc = templateRender.RenderTemplate("template.html");
+            if (doc != null)
+            {
+                return 0;
+            }
+
+            return -1;
         }
     }
 }

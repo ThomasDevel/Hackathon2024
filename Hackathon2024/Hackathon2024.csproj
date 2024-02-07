@@ -11,7 +11,7 @@
 
 	<ItemGroup>
 		<None Update="result_template.html">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
 		<None Update="template.html">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
