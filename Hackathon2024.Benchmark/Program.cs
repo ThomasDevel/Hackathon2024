@@ -18,9 +18,6 @@ namespace Hackathon2024.Benchmark
         private StringReader _template;
         private Data _data;
 
-        [Params(10)]
-        public int N { get; set; }
-
         [GlobalSetup]
         public void Init()
         {

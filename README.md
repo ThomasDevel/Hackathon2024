@@ -49,8 +49,8 @@ run it by pressing Ctrl+F5 so it does not attach a debugger. Do not worry if thi
 
 ![Release](./images/Release.PNG)
 
-After the run you should be greeted by a similar overview as shown below where you can clearly see that we did
-N=10 runs for an average runtime of 1.826 us and that our program allocated 5 KB of memory during its runtime.
+After the run you should be greeted by a similar overview as shown below where you can clearly see that we have
+an average runtime of 1.785 µs and that our program allocated 5 KB of memory during its runtime.
 Your job is to get that Mean as low as possible while also taking into account the Allocated memory as much as possible.
 
 ![Benchmark](./images/Benchmark.PNG)
