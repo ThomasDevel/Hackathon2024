@@ -1,9 +1,13 @@
-﻿namespace Hackathon2024
-{
-    using HtmlAgilityPack;
-    using System.Collections.Generic;
-    using System.Linq;
+using HtmlAgilityPack;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Data = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, object>[]>;
 
+namespace Hackathon2024
+{
     public struct KnownExpressions
     {
         public const string ItemValue = "itemValue";
@@ -12,106 +16,68 @@
 
     public class TemplateRenderer
     {
-        private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> DataSources = new()
-        {
-            {
-                "hackathon_jury",
-                new Dictionary<string, Dictionary<string, string>>
-                {
-                    {
-                        "1",
-                        new Dictionary<string, string> {
-                            {"JURY_MEM", "Francois Mercer"},
-                            {"LANGUAGE", "French"},
-                            {"ID", "1"}
-                        }
-                    },
-                    {
-                        "2",
-                        new Dictionary<string, string> {
-                            {"JURY_MEM", "Jonathan Patterson"},
-                            {"LANGUAGE", "English"},
-                            {"ID", "2"}
-                        }
-                    },
-                    {
-                        "3",
-                        new Dictionary<string, string> {
-                            {"JURY_MEM", "Estelle Darcy"},
-                            {"LANGUAGE", "English"},
-                            {"ID", "3"}
-                        }
-                    }
-                }
-            }
-        };
-
-        private static readonly Dictionary<string, string> Resources = new()
-        {
-            {"heo/hackathon_2024/arrow_left.png", "https://paranadigital.selligent.com/images/SMC/heo/hackathon_2024/arrow_left.png" },
-            {"heo/hackathon_2024/arrow_down.png","https://paranadigital.selligent.com/images/SMC/heo/hackathon_2024/arrow_down.png" },
-            {"heo/hackathon_2024/Hackathon_2024_Banner.png", "https://paranadigital.selligent.com/images/SMC/heo/hackathon_2024/Hackathon_2024_Banner.png" }
-        };
-
-        public void Render()
-        {
-            var outDoc = RenderTemplate("template.html");
-        }
-
-        public HtmlDocument RenderTemplate(string documentPath)
+        public void RenderTemplate(TextReader template, TextWriter output, Data allData)
         {
             var document = new HtmlDocument();
-            document.Load(documentPath);
+            document.Load(template);
 
-            HtmlNode[] repeaterNodes = document.DocumentNode.SelectNodes("//*[name()='sg:repeater']")?.ToArray() ?? [];
+            var baseUrl = allData["variables"]
+                .Where(x =>
+                    x.TryGetValue("name", out object name) &&
+                    "baseurl".Equals(name.ToString()))
+                .Select(x =>
+                    x["value"]?.ToString() ?? "")
+                .FirstOrDefault();
+
+            HtmlNode[] repeaterNodes = document.DocumentNode.SelectNodes("//*[name()='sg:repeater']")?.ToArray() ?? Array.Empty<HtmlNode>();
             foreach (var repeaterNode in repeaterNodes)
             {
-                HtmlNode[] repeaterItemNodes = repeaterNode.SelectNodes("//*[name()='sg:repeateritem']")?.ToArray() ?? [];
-                // hackathon_jury is the data source, JURY_MEM the field selection
-                // dataselection="hackathon_jury"
+                HtmlNode[] repeaterItemNodes = repeaterNode.SelectNodes("//*[name()='sg:repeateritem']")?.ToArray() ?? Array.Empty<HtmlNode>();
+
                 foreach (var repeaterItemNode in repeaterItemNodes)
                 {
-                    var innerText = repeaterItemNode.InnerText.Trim();
                     var dataSelection = repeaterNode.Attributes["dataselection"].Value;
-                    var expressions = ExpressionTransformer.ParseContent(innerText).ToArray();
-                    var parts = GetItemValue(dataSelection, expressions[0]);
-                    string formattedResult = string.Join(",\n", parts);
-                    var parentNode = repeaterNode.ParentNode;
-                    repeaterNode.Remove();
-                    parentNode.InnerHtml = $"{parentNode.InnerHtml}\n{formattedResult}";
+                    var repeaterItemContent = repeaterItemNode.InnerHtml;
+
+                    var repeatedContent = new StringBuilder();
+                    foreach (var dataItem in allData[dataSelection])
+                    {
+                        var result = ExpressionTransformer.RenderExpressions(repeaterItemContent, baseUrl, dataItem);
+
+                        repeatedContent.Append(result);
+                    }
+
+                    ReplaceHtml(repeaterNode, repeatedContent);
                 }
             }
 
-            HtmlNode[] imageNodes = document.DocumentNode.SelectNodes("//img")?.ToArray() ?? [];
+            HtmlNode[] imageNodes = document.DocumentNode.SelectNodes("//img")?.ToArray() ?? Array.Empty<HtmlNode>();
             foreach (var imageNode in imageNodes)
             {
                 var srcAttributeValue = imageNode.Attributes["src"].Value;
-                var expressions = ExpressionTransformer.ParseContent(srcAttributeValue)?.ToArray() ?? [];
-                var actualLink = GetResourceValue(expressions[0]);
-                imageNode.Attributes["src"].Value = actualLink;
+
+                var result = ExpressionTransformer.RenderExpressions(srcAttributeValue, baseUrl);
+
+                imageNode.Attributes["src"].Value = result;
             }
 
-
-
-            return document;
+            document.DocumentNode.WriteTo(output);
         }
 
-        public static string[] GetItemValue(string dataSelection, string itemValueExpression)
+        private static void ReplaceHtml(HtmlNode repeaterNode, StringBuilder repeatedContent)
         {
-            var lookupKey = ExpressionTransformer.ParseParenthesisContent(KnownExpressions.ItemValue, itemValueExpression);
-            return DataSources[dataSelection].Values.Where(x => x.ContainsKey(lookupKey))
-                                                    .Select(y => y[lookupKey]).ToArray();
-        }
+            repeaterNode.InnerHtml = repeatedContent.ToString();
 
-        public static string GetResourceValue(string resourceValueExpression)
-        {
-            var lookupKey = ExpressionTransformer.ParseParenthesisContent(KnownExpressions.Resource, resourceValueExpression);
-            if (Resources.TryGetValue(lookupKey, out string value))
+            var repeatedNodes = repeaterNode.ChildNodes;
+
+            var parent = repeaterNode.ParentNode;
+
+            repeaterNode.Remove();
+
+            foreach (var child in repeatedNodes)
             {
-                return value;
+                parent.AppendChild(child);
             }
-
-            return string.Empty;
         }
     }
 }

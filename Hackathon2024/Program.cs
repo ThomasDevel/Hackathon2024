@@ -1,4 +1,9 @@
-﻿namespace Hackathon2024
+﻿using System;
+using System.IO;
+using System.Text.Json;
+using Data = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, object>[]>;
+
+namespace Hackathon2024
 {
     using System.IO;
 
@@ -6,15 +11,19 @@
     {
         static int Main(string[] args)
         {
-            var templateRender = new TemplateRenderer();
-            var doc = templateRender.RenderTemplate("template.html");
-            if (doc != null)
-            {
-                File.WriteAllText(@".\result.html", doc.DocumentNode.OuterHtml);
-                return 0;
-            }
+            var template = args.Length > 0
+                ? File.OpenText(args[0])
+                : Console.In;
 
-            return -1;
+            var data = JsonSerializer.Deserialize<Data>(
+                args.Length > 1
+                    ? File.ReadAllText(args[1])
+                    : "[]");
+
+            new TemplateRenderer()
+                .RenderTemplate(template, Console.Out, data);
+
+            return 0;
         }
     }
 }

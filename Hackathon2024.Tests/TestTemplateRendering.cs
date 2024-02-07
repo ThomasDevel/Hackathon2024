@@ -1,23 +1,29 @@
-﻿namespace Hackathon2024.Tests
-{
-    using System.IO;
-    using Xunit;
+﻿using System.IO;
+using System.Text.Json;
+using Xunit;
+using Data = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, object>[]>;
 
+namespace Hackathon2024.Tests
+{
     public class TestTemplateRendering
     {
         [Fact]
         public void GivenATemplateRenderedByOurOwnImplementation_WhenNormalizingAndComparingThem_TheyShouldMatch()
         {
-            var templateRender = new TemplateRenderer();
-            templateRender.Render();
+            using var template = File.OpenText("template.html");
+            using var dataJson = File.OpenRead("data.json");
+            var data = JsonSerializer.Deserialize<Data>(dataJson);
 
-            var givenExample = File.ReadAllText(@"..\..\..\..\Hackathon2024\result_template.html").Replace("\n", "").Replace("\r", "");
-            var result = File.ReadAllText(@"..\..\..\..\Hackathon2024\bin\Debug\net8.0\result.html").Replace("\n", "").Replace("\r", "");
+            using var output = new StringWriter();
 
-            var sequence1 = givenExample.Trim();
-            var sequence2 = result.Trim();
+            new TemplateRenderer()
+                .RenderTemplate(template, output, data);
 
-            Assert.Equal(sequence1, sequence2);
+            var templateContent = File.ReadAllText("result_template.html");
+
+            Assert.Equal(
+                templateContent.NaiveHtmlNormalize(),
+                output.ToString().NaiveHtmlNormalize());
         }
     }
 }
