@@ -1,7 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
-using HtmlAgilityPack;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -19,7 +18,6 @@ namespace Hackathon2024.Benchmark
         private StringReader _template;
         private Data _data;
 
-        //[Params(100, 500, 1000)]
         [Params(10)]
         public int N { get; set; }
 
