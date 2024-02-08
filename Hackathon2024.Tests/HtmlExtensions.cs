@@ -1,7 +1,7 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Hackathon2024.Tests
+﻿namespace Hackathon2024.Tests
 {
+    using System.Text.RegularExpressions;
+
     public static class HtmlExtensions
     {
         public static Regex Whitespace = new(@"\s+", RegexOptions.Compiled);

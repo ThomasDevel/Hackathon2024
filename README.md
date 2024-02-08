@@ -8,6 +8,19 @@ git clone https://github.com/ThomasDevel/Hackathon2024.git
 
 Open the Hackathon2024.sln solution in the Hackathon2024 folder to get started.
 
+Right click Hackathon2024 solution and go to the properties section.
+You will be greeted by the Debug and Resources screen, please click on
+"Open debug launch profiles UI".
+In the command line arguments box you can place the following:
+
+```
+template.html data.json
+```
+
+Doing so will generate a launchSettings.json for you in the Properties Folder.
+The first argument corresponds to the desired template you want to render, the second
+argument is the used dataset. You can leave this settings like this after creating this file.
+
 In this branch you will find 3 projects:
 
 - Hackathon2024: This contains the implementation for rendering a HTML template according to the Engage Expression style.
@@ -27,7 +40,7 @@ perfect use case which could occur in a real life enterprise setting.
 
 Template engines are software that enable you to write HTML code with placeholders, variables, expressions, and logic. For example, you can use a template engine to loop through an array of data and display it in a table, or to conditionally render different elements based on user input. Template engines usually have their own syntax and rules, but they are compatible with standard HTML.
 
-Template engines work by taking a template file, which is a HTML file with some special tags or syntax, and a data object with the values you want to insert into the template. The template engine then parses the template file, replaces the placeholders with the data, and generates a final HTML output that can be sent to the browser. For instance, the example below showcases what a moustache expression looks like and what the expected result should be:
+Template engines work by taking a template file, which is a HTML file with some special tags or syntax, and a data object with the values you want to insert into the template. The template engine then parses the template file, replaces the placeholders with the data, and generates a final HTML output that can be sent to the browser. For instance, the example below showcases what a mustache expression looks like and what the expected result should be:
 
 > I really love memes. Especially {{meme_of_the_month}}, that one really cracks me up!
 

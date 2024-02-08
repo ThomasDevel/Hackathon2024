@@ -21,5 +21,42 @@
       "JURY_MEM": "Estelle Darcy",
       "LANGUAGE": "English"
     }
+  ],
+  "hackathon_participants": [
+    {
+      "ID": 1,
+      "NAME": "Thomas Aerts",
+      "LANGUAGE": "Dutch"
+    },
+    {
+      "ID": 2,
+      "NAME": "Igor Kalders",
+      "LANGUAGE": "Dutch"
+    },
+    {
+      "ID": 3,
+      "NAME": "Kevin Wuest",
+      "LANGUAGE": "Dutch"
+    },
+    {
+      "ID": 4,
+      "NAME": "Wouter Stevens",
+      "LANGUAGE": "Dutch"
+    },
+    {
+      "ID": 5,
+      "NAME": "Benjamin De Cock",
+      "LANGUAGE": "French"
+    },
+    {
+      "ID": 6,
+      "NAME": "Karel Frederix",
+      "LANGUAGE": "Dutch"
+    },
+    {
+      "ID": 7,
+      "NAME": "Blaise Braye",
+      "LANGUAGE": "French"
+    }
   ]
 }

@@ -1,15 +1,16 @@
-﻿using Azure.Storage.Blobs;
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
-using System;
-using System.IO;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Data = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, object>[]>;
-
-namespace Hackathon2024.Benchmark
+﻿namespace Hackathon2024.Benchmark
 {
+    using Azure.Storage.Blobs;
+    using BenchmarkDotNet.Attributes;
+    using BenchmarkDotNet.Running;
+    using System;
+    using System.IO;
+    using System.Text.Json;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using Data = System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, object>[]>;
+
+
     [MemoryDiagnoser]
     [JsonExporter(indentJson: true, excludeMeasurements: true)]
     public class HackathonBenchmark
